@@ -1,9 +1,11 @@
-# python-package
-Python Package Boilerplate
+<div align="center">
+  <img src="./misc/nootropic.svg" alt="Logo" height="70" />
+  <p><strong></strong></p>
+</div>
+<br/>
 
-## Usage
-```
-git clone https://github.com/brunneis/python-package
-cd python-package
-./rename.sh
+# Installation
+
+```bash
+pip install .
 ```
