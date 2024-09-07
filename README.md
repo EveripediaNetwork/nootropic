@@ -1,6 +1,6 @@
 <div align="center">
   <img src="./misc/nootropic.svg" alt="Logo" height="70" />
-  <p><strong>Instant IQ Boost for Any LLM</strong></p>
+  <p><strong>Instant IQ Boost for LLMs</strong></p>
 </div>
 <br/>
 
