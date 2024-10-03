@@ -1,5 +1,8 @@
 # Custom
 .dccache
+test.py
+env.sh
+dev/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
