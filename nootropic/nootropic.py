@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 import uuid
 import copy
 
@@ -81,24 +81,55 @@ class BaseWrapper:
 class GenerateWrapper(BaseWrapper):
     def __call__(
         self,
-        prompt: Optional[str] = None,
-        system_prompt: Optional[str] = None,
-        messages: Optional[List[Dict[str, str]]] = None,
+        prompt_or_messages: Union[str, List[Dict[str, str]]],
+        system: Optional[str] = None,
         **kwargs: Any,
     ) -> str:
-        if messages:
-            kwargs['messages'] = self._modify_messages(messages)
-        elif prompt:
-            kwargs['prompt'] = self._modify_content(prompt)
+        if isinstance(prompt_or_messages, list):
+            kwargs['prompt_or_messages'] = self._modify_messages(
+                prompt_or_messages,
+            )
+        else:
+            kwargs['prompt_or_messages'] = self._modify_content(
+                prompt_or_messages,
+            )
 
-        if system_prompt or self._system:
-            kwargs['system_prompt'] = system_prompt or self._system
+        if system or self._system:
+            kwargs['system'] = system or self._system
 
         return self._client_attr(**kwargs)
 
     def __getattr__(self, name: str) -> Any:
         raise NotImplementedError(
             'Method {0} is not implemented in GenerateWrapper'.format(name),
+        )
+
+
+# llmdk
+class StreamWrapper(BaseWrapper):
+    def __call__(
+        self,
+        prompt_or_messages: Union[str, List[Dict[str, str]]],
+        system: Optional[str] = None,
+        **kwargs: Any,
+    ) -> Any:
+        if isinstance(prompt_or_messages, list):
+            kwargs['prompt_or_messages'] = self._modify_messages(
+                prompt_or_messages,
+            )
+        else:
+            kwargs['prompt_or_messages'] = self._modify_content(
+                prompt_or_messages,
+            )
+
+        if system or self._system:
+            kwargs['system'] = system or self._system
+
+        return self._client_attr(**kwargs)
+
+    def __getattr__(self, name: str) -> Any:
+        raise NotImplementedError(
+            'Method {0} is not implemented in StreamWrapper'.format(name),
         )
 
 
@@ -200,6 +231,11 @@ class Nootropic:
     @property
     def generate(self) -> GenerateWrapper:
         return self._create_wrapper('generate', GenerateWrapper)
+
+    # LLMDK
+    @property
+    def stream(self) -> StreamWrapper:
+        return self._create_wrapper('stream', StreamWrapper)
 
     # OpenAI, HuggingFace, Groq, Ollama
     @property

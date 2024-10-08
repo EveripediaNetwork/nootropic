@@ -22,22 +22,24 @@ from openai import OpenAI
 from os import environ as env
 
 client = OpenAI(
-    api_key=env.get('OPENAI_API_KEY')
+    api_key=env.get('OPENAI_API_KEY'),
 )
 
 # Wrap your client with Nootropic
 client = Nootropic(
     client,
-    # prefix='prompt prefix for every user message',
-    # postfix='prompt postfix for every user message',
-    system='system prompt for the model',
+    # prefix='Prefix for every user message.',
+    # postfix='Postfix for every user message.',
+    # system='System prompt.',
+    # disable_cache=False,
 )
 
 ```
 
-# Supported Python SDKs
+# Supported SDKs
 - LLMDK: [llmdk](https://github.com/EveripediaNetwork/llmdk)
-- OpenAI: [openai](https://github.com/openai/openai-python)
 - Anthropic: [anthropic](https://github.com/anthropics/anthropic-sdk-python)
 - Groq: [groq](https://github.com/groq/groq-python)
+- HuggingFace: [huggingface](https://github.com/huggingface/huggingface_hub)
 - Ollama: [ollama](https://github.com/ollama/ollama-python)
+- OpenAI: [openai](https://github.com/openai/openai-python)
