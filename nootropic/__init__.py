@@ -3,4 +3,4 @@
 
 from .nootropic import *
 
-__version__ = '1.2410.0'
+__version__ = '1.2410.1'
